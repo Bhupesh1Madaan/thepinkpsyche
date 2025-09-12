@@ -357,119 +357,77 @@ export default function Home() {
         }
 
         /* Section 5: Categories */
-        .categories-section {
-          background: white;
-          height: 500vh;
+        .categories-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr); /* desktop: 3 columns */
+          gap: 20px;
+          padding: 40px;
+        }
+
+        .category-item {
           position: relative;
-        }
-
-        .categories-title {
-          position: sticky;
-          top: 10vh;
-          text-align: center;
-          font-size: 2.5rem;
-          margin-bottom: 2rem; /* reduced from 3rem */
-          color: #2c3e50;
-          z-index: 100;
-          background: white;
-          padding: 1rem 0; /* reduced from 2rem */
-}
-
-        .categories-container {
-          position: sticky;
-          top: 25vh;
-          max-width: 600px;
-          margin: 0 auto;
-          height: 50vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .category-card {
-          position: absolute;
-          width: 100%;
-          max-width: 500px;
-          background: white;
-          border-radius: 20px;
           overflow: hidden;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-          transition: transform 0.5s ease, opacity 0.5s ease, z-index 0.3s ease;
-          transform: translateY(100vh);
-          opacity: 0;
-        }
-
-        .category-card.show {
-          transform: translateY(0);
-          opacity: 1;
-          z-index: 10;
-        }
-
-        .category-card.stack-1 {
-          transform: translateY(-15px) scale(0.97);
-          opacity: 0.8;
-          z-index: 9;
-        }
-
-        .category-card.stack-2 {
-          transform: translateY(-25px) scale(0.94);
-          opacity: 0.6;
-          z-index: 8;
-        }
-
-        .category-card.stack-3 {
-          transform: translateY(-35px) scale(0.91);
-          opacity: 0.4;
-          z-index: 7;
-        }
-
-        .category-card.hide {
-          transform: translateY(-100vh);
-          opacity: 0;
-          z-index: 1;
-        }
-
-        .category-card-content {
-          padding: 2rem;
-          text-align: center;
-        }
-
-        .category-card h4 {
-          font-size: 1.5rem;
-          margin-bottom: 1rem;
-          color: #2c3e50;
-        }
-
-        .category-card p {
-          color: #666;
-          font-size: 1rem;
-          line-height: 1.6;
-        }
-
-        .category-progress {
-          position: fixed;
-          top: 50%;
-          right: 2rem;
-          transform: translateY(-50%);
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          z-index: 200;
-        }
-
-        .progress-dot {
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: #ddd;
-          transition: all 0.3s ease;
+          border-radius: 15px;
           cursor: pointer;
         }
 
-        .progress-dot.active {
-          background: #667eea;
-          transform: scale(1.2);
+        .category-item img {
+          width: 100%;
+          height: 250px;
+          object-fit: cover;
+          transition: transform 0.4s ease;
         }
+
+        .category-item:hover img {
+          transform: scale(1.1); /* halka zoom */
+        }
+
+        .overlay {
+          position: absolute;
+          top: 0;
+          left: 100%; /* hidden on right */
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.6);
+          color: white;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          padding: 20px;
+          text-align: center;
+          opacity: 0;
+          transition: all 0.5s ease;
+        }
+
+        .category-item:hover .overlay {
+          left: 0;       /* slide from right */
+          opacity: 1;    /* fade in */
+        }
+
+        .overlay h3 {
+          font-size: 1.5rem;
+          margin-bottom: 10px;
+        }
+
+        .overlay p {
+          font-size: 1rem;
+          line-height: 1.4;
+        }
+
+        /* Responsive grid */
+        @media (max-width: 1024px) {
+          .categories-grid {
+            grid-template-columns: repeat(2, 1fr); /* tablet */
+          }
+        }
+
+        @media (max-width: 640px) {
+          .categories-grid {
+            grid-template-columns: 1fr; /* mobile */
+          }
+        }
+
 
         /* Section 6: Founder */
         .founder-section {
@@ -671,7 +629,7 @@ export default function Home() {
         </section>
 
         {/* Section 5: Categories */}
-        <section className="categories-section" ref={categoriesSectionRef}>
+        {/* <section className="categories-section" ref={categoriesSectionRef}>
           <h2 className="categories-title">Explore Our Categories</h2>
           <div className="categories-container">
             <div className="category-card" data-index="0">
@@ -748,7 +706,111 @@ export default function Home() {
             <div className="progress-dot" onClick={() => handleProgressDotClick(3)}></div>
             <div className="progress-dot" onClick={() => handleProgressDotClick(4)}></div>
           </div>
+        </section> */}
+        {/* <section className="categories-grid">
+          <div className="category-item">
+            <img
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop"
+              alt="Personal Growth"
+            />
+            <div className="overlay">
+              <h3>Personal Growth</h3>
+              <p>Develop yourself mentally, emotionally, and spiritually.</p>
+            </div>
+          </div>
+
+          <div className="category-item">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=300&fit=crop"
+              alt="Career Success"
+            />
+            <div className="overlay">
+              <h3>Career Success</h3>
+              <p>Advance your professional life with strategies & tips.</p>
+            </div>
+          </div>
+
+          <div className="category-item">
+            <img
+              src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=500&h=300&fit=crop"
+              alt="Relationships"
+            />
+            <div className="overlay">
+              <h3>Relationships</h3>
+              <p>Build stronger and more meaningful connections.</p>
+            </div>
+          </div>
+        </section> */}
+        <section className="categories-grid">
+          <h1>Explore Or Categories</h1>
+          <div className="category-item">
+            <img
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop"
+              alt="Personal Growth"
+            />
+            <div className="overlay">
+              <h3>Personal Growth</h3>
+              <p>Develop yourself mentally, emotionally, and spiritually.</p>
+            </div>
+          </div>
+
+          <div className="category-item">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=300&fit=crop"
+              alt="Career Success"
+            />
+            <div className="overlay">
+              <h3>Career Success</h3>
+              <p>Advance your professional life with strategies & tips.</p>
+            </div>
+          </div>
+
+          <div className="category-item">
+            <img
+              src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=500&h=300&fit=crop"
+              alt="Relationships"
+            />
+            <div className="overlay">
+              <h3>Relationships</h3>
+              <p>Build stronger and more meaningful connections.</p>
+            </div>
+          </div>
+
+          <div className="category-item">
+            <img
+              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=500&h=300&fit=crop"
+              alt="Mindfulness"
+            />
+            <div className="overlay">
+              <h3>Mindfulness & Wellness</h3>
+              <p>Discover inner peace through mindfulness and wellness.</p>
+            </div>
+          </div>
+
+          <div className="category-item">
+            <img
+              src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=500&h=300&fit=crop"
+              alt="Productivity"
+            />
+            <div className="overlay">
+              <h3>Productivity</h3>
+              <p>Boost efficiency and master time management skills.</p>
+            </div>
+          </div>
+
+          <div className="category-item">
+            <img
+              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop"
+              alt="Creativity"
+            />
+            <div className="overlay">
+              <h3>Creativity</h3>
+              <p>Unlock your creative potential with fresh perspectives.</p>
+            </div>
+          </div>
         </section>
+
+
 
         {/* Section 6: Founder */}
         <section className="founder-section">
