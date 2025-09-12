@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/navbar';
+import Footer from '@/components/footer';
 
 
 export default function Home() {
@@ -367,12 +368,12 @@ export default function Home() {
           top: 10vh;
           text-align: center;
           font-size: 2.5rem;
-          margin-bottom: 3rem;
+          margin-bottom: 2rem; /* reduced from 3rem */
           color: #2c3e50;
           z-index: 100;
           background: white;
-          padding: 2rem 0;
-        }
+          padding: 1rem 0; /* reduced from 2rem */
+}
 
         .categories-container {
           position: sticky;
@@ -393,7 +394,7 @@ export default function Home() {
           border-radius: 20px;
           overflow: hidden;
           box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-          transition: all 0.3s ease;
+          transition: transform 0.5s ease, opacity 0.5s ease, z-index 0.3s ease;
           transform: translateY(100vh);
           opacity: 0;
         }
@@ -795,6 +796,7 @@ export default function Home() {
             <p>&copy; 2025 Your Blog. All rights reserved.</p>
           </div>
         </footer> */}
+        <Footer />
       </div>
     </>
   );

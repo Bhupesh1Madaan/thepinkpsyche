@@ -1,10 +1,12 @@
 import Navbar from "../../components/navbar";
 import Footer from "../../components/footer";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
 export default function BlogDetail() {
     const router = useRouter();
     const { id } = router.query;
+    const [copied, setCopied] = useState(false);
 
     const blogData = {
         1: {
@@ -38,14 +40,27 @@ export default function BlogDetail() {
 
     if (!blog) return <p>Loading...</p>;
 
+    // Copy current page URL
+    const handleShare = () => {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(window.location.href);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }
+    };
+
     return (
         <div className="font-sans">
             <Navbar />
 
-            <section className="pt-24 px-6 max-w-4xl mx-auto">
-                <h1 className="text-4xl font-bold text-green-700 mb-6">{blog.title}</h1>
-                <img src={blog.img} alt={blog.title} className="w-full h-80 object-cover rounded-lg mb-6" />
-                <p className="text-gray-700 text-lg">{blog.content}</p>
+            <section className="blog-detail-section">
+                <h1>{blog.title}</h1>
+                <img src={blog.img} alt={blog.title} className="blog-detail-img" />
+                <p>{blog.content}</p>
+
+                <button className="share-btn" onClick={handleShare}>
+                    {copied ? "Copied!" : "Share this post"}
+                </button>
             </section>
 
             <Footer />
