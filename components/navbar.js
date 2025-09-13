@@ -1,19 +1,31 @@
-import { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
-export default function Navbar() {
+export default function Navbar({ animate = false }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [showNav, setShowNav] = useState(!animate); // agar animate nahi hai toh hamesha dikhado
+
+    useEffect(() => {
+        if (!animate) return; // agar animation nahi chahiye toh kuch mat karo
+
+        const handleScroll = () => {
+            if (window.scrollY > window.innerHeight * 0.8) {
+                setShowNav(true);
+            } else {
+                setShowNav(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [animate]);
 
     return (
-        <nav className="navbar">
+        <nav className={`navbar ${showNav ? "show" : "hide"}`}>
             <div className="navbar-inner">
-                {/* Logo */}
-                <div className="navbar-logo">
-                    {/* <img src="logo.png" alt="Logo" className="w-10 h-10 rounded-full" /> */}
-                    The Pink Psyche
-                </div>
+                <div className="navbar-logo">The Pink Psyche</div>
 
-                {/* Desktop Links */}
                 <div className="navbar-links">
                     <Link href="/">Home</Link>
                     <Link href="/about">About</Link>
@@ -21,13 +33,11 @@ export default function Navbar() {
                     <Link href="/contactus">Contact</Link>
                 </div>
 
-                {/* Mobile Hamburger */}
                 <button className="hamburger-btn" onClick={() => setIsOpen(!isOpen)}>
                     {isOpen ? "✖" : "☰"}
                 </button>
             </div>
 
-            {/* Mobile Menu */}
             <div className={`mobile-menu ${isOpen ? "show" : ""}`}>
                 <Link href="/">Home</Link>
                 <Link href="/about">About</Link>

@@ -404,6 +404,17 @@ export default function Home() {
           left: 0;       /* slide from right */
           opacity: 1;    /* fade in */
         }
+        
+        .categories-section {
+          padding: 50px 20px;
+          text-align: center;
+        }
+
+        .categories-title {
+          font-size: 2.5rem;
+          margin-bottom: 40px;
+          color: #2c3e50;
+        }
 
         .overlay h3 {
           font-size: 1.5rem;
@@ -431,7 +442,7 @@ export default function Home() {
 
         /* Section 6: Founder */
         .founder-section {
-          padding: 5rem 2rem;
+          padding: 5rem;
           background: #f8f9fa;
         }
 
@@ -543,7 +554,8 @@ export default function Home() {
         {/* <header className="sticky-header" ref={stickyHeaderRef}>
           <h1>Transform Your Life Today</h1>
         </header> */}
-        <Navbar ref={stickyHeaderRef} />
+        <Navbar animate={true} ref={stickyHeaderRef}/>   {/* animation yaha enable */}
+
 
         {/* Section 1: Hero */}
         <section className="hero-section">
@@ -741,71 +753,73 @@ export default function Home() {
             </div>
           </div>
         </section> */}
-        <section className="categories-grid">
-          <h1>Explore Or Categories</h1>
-          <div className="category-item">
-            <img
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop"
-              alt="Personal Growth"
-            />
-            <div className="overlay">
-              <h3>Personal Growth</h3>
-              <p>Develop yourself mentally, emotionally, and spiritually.</p>
+        <section className="categories-section">
+          <h1 className="categories-title">Explore Or Categories</h1>
+          <div className="categories-grid">
+            <div className="category-item">
+              <img
+                src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop"
+                alt="Personal Growth"
+              />
+              <div className="overlay">
+                <h3>Personal Growth</h3>
+                <p>Develop yourself mentally, emotionally, and spiritually.</p>
+              </div>
             </div>
-          </div>
 
-          <div className="category-item">
-            <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=300&fit=crop"
-              alt="Career Success"
-            />
-            <div className="overlay">
-              <h3>Career Success</h3>
-              <p>Advance your professional life with strategies & tips.</p>
+            <div className="category-item">
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=300&fit=crop"
+                alt="Career Success"
+              />
+              <div className="overlay">
+                <h3>Career Success</h3>
+                <p>Advance your professional life with strategies & tips.</p>
+              </div>
             </div>
-          </div>
 
-          <div className="category-item">
-            <img
-              src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=500&h=300&fit=crop"
-              alt="Relationships"
-            />
-            <div className="overlay">
-              <h3>Relationships</h3>
-              <p>Build stronger and more meaningful connections.</p>
+            <div className="category-item">
+              <img
+                src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=500&h=300&fit=crop"
+                alt="Relationships"
+              />
+              <div className="overlay">
+                <h3>Relationships</h3>
+                <p>Build stronger and more meaningful connections.</p>
+              </div>
             </div>
-          </div>
 
-          <div className="category-item">
-            <img
-              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=500&h=300&fit=crop"
-              alt="Mindfulness"
-            />
-            <div className="overlay">
-              <h3>Mindfulness & Wellness</h3>
-              <p>Discover inner peace through mindfulness and wellness.</p>
+            <div className="category-item">
+              <img
+                src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=500&h=300&fit=crop"
+                alt="Mindfulness"
+              />
+              <div className="overlay">
+                <h3>Mindfulness & Wellness</h3>
+                <p>Discover inner peace through mindfulness and wellness.</p>
+              </div>
             </div>
-          </div>
 
-          <div className="category-item">
-            <img
-              src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=500&h=300&fit=crop"
-              alt="Productivity"
-            />
-            <div className="overlay">
-              <h3>Productivity</h3>
-              <p>Boost efficiency and master time management skills.</p>
+            <div className="category-item">
+              <img
+                src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=500&h=300&fit=crop"
+                alt="Productivity"
+              />
+              <div className="overlay">
+                <h3>Productivity</h3>
+                <p>Boost efficiency and master time management skills.</p>
+              </div>
             </div>
-          </div>
 
-          <div className="category-item">
-            <img
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop"
-              alt="Creativity"
-            />
-            <div className="overlay">
-              <h3>Creativity</h3>
-              <p>Unlock your creative potential with fresh perspectives.</p>
+            <div className="category-item">
+              <img
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop"
+                alt="Creativity"
+              />
+              <div className="overlay">
+                <h3>Creativity</h3>
+                <p>Unlock your creative potential with fresh perspectives.</p>
+              </div>
             </div>
           </div>
         </section>
