@@ -13,6 +13,13 @@ export default async function handler(req, res) {
         try {
             const blogData = { ...req.body };
 
+            if (blogData.featuredImage && blogData.featuredImage.startsWith("data:")) {
+                const uploaded = await cloudinary.uploader.upload(blogData.featuredImage, {
+                    folder: "blogs",
+                });
+                blogData.featuredImage = uploaded.secure_url; // ✅ now save top-level
+            }
+
             // contentBlocks me agar image Base64 hai to Cloudinary me upload karo
             if (Array.isArray(blogData.contentBlocks)) {
                 for (let i = 0; i < blogData.contentBlocks.length; i++) {
@@ -35,7 +42,11 @@ export default async function handler(req, res) {
 
     if (req.method === "GET") {
         try {
-            const blogs = await Blog.find({}).sort({ createdAt: -1 });
+            const { categoryId } = req.query;
+            let query = {};
+            if (categoryId) query.category = categoryId;
+
+            const blogs = await Blog.find(query).sort({ createdAt: -1 });
             res.status(200).json(blogs);
         } catch (err) {
             res.status(400).json({ error: err.message });

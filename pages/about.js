@@ -12,22 +12,22 @@ export default function About() {
 
     const storyBlocks = [
         {
-            img: "https://via.placeholder.com/400x300?text=Founder",
+            img: "/placeholder.png",
             text: "Meet our founder, a visionary woman passionate about empowering others. Her journey began with self-discovery and reflection.",
             side: "left",
         },
         {
-            img: "https://via.placeholder.com/400x300?text=Mission",
+            img: "/placeholder.png",
             text: "Our mission is to inspire calmness, growth, and introspection. We believe every woman has the potential to bloom like a butterfly.",
             side: "right",
         },
         {
-            img: "https://via.placeholder.com/400x300?text=Work",
+            img: "/placeholder.png",
             text: "Through workshops, articles, and community support, we guide women to embrace self-awareness and mindfulness in daily life.",
             side: "left",
         },
         {
-            img: "https://via.placeholder.com/400x300?text=Impact",
+            img: "/placeholder.png",
             text: "Our impact is growing, connecting women globally, and creating a safe space to share stories and encouragement.",
             side: "right",
         },

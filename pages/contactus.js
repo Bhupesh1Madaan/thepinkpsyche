@@ -4,7 +4,7 @@ import Footer from "../components/footer";
 export default function Contact() {
     return (
         <div className="font-sans">
-            <Navbar />
+            <Navbar animate={false}/>
 
             <section className="contact-section">
                 <h1>Contact Us</h1>

@@ -1,69 +1,128 @@
+"use client";
+
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Navbar from "../../components/navbar";
 import Footer from "../../components/footer";
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
 
-export default function BlogDetail() {
+export default function BlogPage() {
     const router = useRouter();
-    const { id } = router.query;
-    const [copied, setCopied] = useState(false);
+    const { id } = router.query; // slug
 
-    const blogData = {
-        1: {
-            title: "Self Love Tips",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac justo eget libero facilisis tempor. Curabitur eget justo eget arcu tempus.",
-            img: "https://via.placeholder.com/800x400?text=Self+Love",
-        },
-        2: {
-            title: "Healthy Relationship",
-            content: "Tips and guidance to maintain a healthy relationship. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            img: "https://via.placeholder.com/800x400?text=Relationships",
-        },
-        3: {
-            title: "Overcoming Challenges",
-            content: "How to overcome difficult situations in life. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            img: "https://via.placeholder.com/800x400?text=Circumstances",
-        },
-        4: {
-            title: "Mindful Living",
-            content: "Learn how to live mindfully and stay present. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            img: "https://via.placeholder.com/800x400?text=Mindfulness",
-        },
-        5: {
-            title: "Communication Skills",
-            content: "Enhance your communication skills in daily life. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            img: "https://via.placeholder.com/800x400?text=Communication",
-        },
-    };
+    const [blog, setBlog] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const blog = blogData[id];
+    useEffect(() => {
+        if (!id) return;
 
-    if (!blog) return <p>Loading...</p>;
+        const fetchBlog = async () => {
+            try {
+                const res = await axios.get("/api/blogs"); // fetch all blogs
+                const b = res.data.find((item) => item.slug === id);
+                setBlog(b || null);
+            } catch (err) {
+                console.error(err);
+                setBlog(null);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    // Copy current page URL
+        fetchBlog();
+    }, [id]);
+
     const handleShare = () => {
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(window.location.href);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        }
+        if (!blog) return;
+        const url = `${window.location.origin}/blog/${blog.slug}`;
+        navigator.clipboard.writeText(url).then(() => alert("Blog link copied!"));
     };
+
+    if (loading) return <div style={{ textAlign: "center", marginTop: "100px" }}>Loading...</div>;
+    if (!blog) return <div style={{ textAlign: "center", marginTop: "100px" }}>Blog not found</div>;
 
     return (
-        <div className="font-sans">
-            <Navbar />
+        <>
+            <Navbar animate={false} />
+            <div style={{ maxWidth: "900px", margin: "90px auto", padding: "0 20px" }}>
 
-            <section className="blog-detail-section">
-                <h1>{blog.title}</h1>
-                <img src={blog.img} alt={blog.title} className="blog-detail-img" />
-                <p>{blog.content}</p>
+                {/* Featured Image */}
+                {blog.featuredImage && (
+                    <div style={{ marginBottom: "40px", textAlign: "center" }}>
+                        <img
+                            src={blog.featuredImage}
+                            alt={blog.title}
+                            style={{ width: "100%", maxHeight: "400px", objectFit: "cover", borderRadius: "8px" }}
+                        />
+                    </div>
+                )}
 
-                <button className="share-btn" onClick={handleShare}>
-                    {copied ? "Copied!" : "Share this post"}
-                </button>
-            </section>
+                {/* Title & Category */}
+                <h1 style={{ fontSize: "36px", fontWeight: "700", marginBottom: "10px", textAlign: "center" }}>
+                    {blog.title}
+                </h1>
+                <p style={{ textAlign: "center", fontStyle: "italic", marginBottom: "30px" }}>
+                    Category: {blog.category}
+                </p>
 
+                {/* Content Blocks */}
+                {blog.contentBlocks.map((block, idx) => {
+                    const isRow = block.imagePosition === "left" || block.imagePosition === "right";
+                    const flexDirection = block.imagePosition === "left" ? "row" :
+                        block.imagePosition === "right" ? "row-reverse" :
+                            "column";
+
+                    return (
+                        <div key={idx} style={{
+                            display: "flex",
+                            flexDirection,
+                            alignItems: isRow ? "center" : "flex-start",
+                            marginBottom: "30px",
+                            gap: "15px",
+                        }}>
+                            {block.image && (
+                                <img
+                                    src={block.image}
+                                    alt={`block-${idx}`}
+                                    style={{
+                                        width: block.imageWidth || (isRow ? "40%" : "100%"),
+                                        height: block.imageHeight || "auto",
+                                        objectFit: "cover",
+                                        borderRadius: "8px",
+                                    }}
+                                />
+                            )}
+                            {block.type === "paragraph" && (
+                                <p style={{ fontSize: "18px", lineHeight: "1.7" }}>
+                                    {block.text}
+                                </p>
+                            )}
+                        </div>
+                    );
+                })}
+
+                {/* Share Button */}
+                <div style={{ textAlign: "center", margin: "40px 0" }}>
+                    <button
+                        onClick={handleShare}
+                        style={{
+                            padding: "12px 25px",
+                            backgroundColor: "#0f5101",
+                            color: "#fff",
+                            fontWeight: "bold",
+                            border: "none",
+                            borderRadius: "6px",
+                            cursor: "pointer",
+                            transition: "0.3s",
+                        }}
+                        onMouseOver={(e) => (e.target.style.backgroundColor = "#0c3d01")}
+                        onMouseOut={(e) => (e.target.style.backgroundColor = "#0f5101")}
+                    >
+                        Share This Blog
+                    </button>
+                </div>
+            </div>
             <Footer />
-        </div>
+        </>
     );
 }

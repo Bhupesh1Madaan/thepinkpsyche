@@ -1,56 +1,54 @@
-import Navbar from "../components/navbar";
-import Footer from "../components/footer";
-import Link from "next/link";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
+import styles from '../styles/blogs.module.css';
+import Navbar from '../components/navbar';
+import Footer from '../components/footer';
 
-export default function Blogs() {
-    const categories = [
-        { id: 1, name: "Love" },
-        { id: 2, name: "Relationships" },
-        { id: 3, name: "Circumstances" },
-    ];
+export default function BlogsPage() {
+    const router = useRouter();
+    const { category } = router.query;
 
-    const blogs = [
-        { id: 1, title: "Self Love Tips", category: "Love", img: "https://via.placeholder.com/400x250?text=Self+Love", summary: "Learn how to love yourself first." },
-        { id: 2, title: "Healthy Relationship", category: "Relationships", img: "https://via.placeholder.com/400x250?text=Relationships", summary: "Tips for a balanced relationship." },
-        { id: 3, title: "Overcoming Challenges", category: "Circumstances", img: "https://via.placeholder.com/400x250?text=Circumstances", summary: "How to overcome tough situations." },
-        { id: 4, title: "Mindful Living", category: "Love", img: "https://via.placeholder.com/400x250?text=Mindfulness", summary: "Practice mindfulness daily." },
-        { id: 5, title: "Communication Skills", category: "Relationships", img: "https://via.placeholder.com/400x250?text=Communication", summary: "Enhance your communication." },
-    ];
+    const [blogs, setBlogs] = useState([]);
+
+    useEffect(() => {
+        let url = '/api/blogs';
+        if (category) {
+            url += `?categoryName=${category}`;
+        }
+        axios.get(`/api/blogs?categoryName=${category}`)
+            .then(res => setBlogs(res.data))
+            .catch(err => console.log(err));
+    }, [category]);
 
     return (
-        <div className="font-sans">
-            <Navbar />
-
-            <section className="blogs-section">
-                <h1>Our Blogs</h1>
-
-                {/* Categories */}
-                <div className="blog-categories">
-                    {categories.map((cat) => (
-                        <span key={cat.id} className="blog-category">
-                            {cat.name}
-                        </span>
-                    ))}
-                </div>
-
-                {/* Blog Cards */}
-                <div className="blog-cards">
-                    {blogs.map((blog) => (
-                        <Link key={blog.id} href={`/blog/${blog.id}`}>
-                            <div className="blog-card">
-                                <img src={blog.img} alt={blog.title} />
-                                <div className="blog-card-content">
-                                    <h2>{blog.title}</h2>
-                                    <p>{blog.summary}</p>
-                                    <span>{blog.category}</span>
-                                </div>
+        <>
+            <Navbar animate={false} />
+            <div className={styles.blogsContainer}>
+                <h1 className={styles.pageTitle}>{category ?`Blogs in ${category}`: "Blogs"}</h1>
+                <div className={styles.blogsGrid}>
+                    {blogs.map(blog => (
+                        <div key={blog.slug} className={styles.blogCard}>
+                            <img
+                                src={blog.featuredImage || "/placeholder.png"}
+                                alt={blog.title}
+                                className={styles.blogCardImage}
+                            />
+                            <div className={styles.blogCardContent}>
+                                <h2 className={styles.blogCardTitle}>{blog.title}</h2>
+                                <p className={styles.blogCardText}>
+                                    {blog.contentBlocks?.[0]?.text?.slice(0, 100) || "No description available."}
+                                </p>
+                                <Link href={`/blog/${blog.slug}`}>
+                                    <button className={styles.blogReadMoreBtn}>Read More</button>
+                                </Link>
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
-            </section>
-
+            </div>
             <Footer />
-        </div>
+        </>
     );
 }
