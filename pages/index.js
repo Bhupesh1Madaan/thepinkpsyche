@@ -239,7 +239,7 @@ export default function Home() {
         {/* Section 1 – Hero */}
         <section style={styles.heroSection} className="scroll-fade">
           <h1 style={styles.heroHeading}>THE PINK PSYCHE</h1>
-          <p style={styles.heroSubheading}>Case Friction, Relentlessly</p>
+          <p style={styles.heroSubheading}>Chase Friction, Relentlessly</p>
           <div style={styles.heroButtons}>
             <button style={styles.heroButton} onClick={() => router.push('/manifesto')}>Manifesto</button>
             <button style={styles.heroButton} onClick={() => router.push('/blogs')}>Blogs</button>
